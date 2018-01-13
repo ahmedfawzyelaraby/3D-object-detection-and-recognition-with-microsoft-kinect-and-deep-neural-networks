@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>kinect_yolo</name>
+  <version>0.1.0</version>
+  <description>The kinect_yolo package</description>
+  <maintainer email="ahmedfawzyelaraby@gmail.com">Dominic Jud</maintainer>
+  <license>BSD</license>
+  <author email="ahmedfawzyelaraby@gmail.com">Dominic Jud</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>opencv2</depend>
+  <depend>cv_bridge</depend>
+  <depend>image_transport</depend>
+</package>

@@ -1,0 +1,4 @@
+<launch>
+	<include file="$(find freenect_launch)/launch/freenect.launch" />
+	<node name="kinect_yolo" pkg="kinect_yolo" type="kinect_yolo" output="screen" />
+</launch>
