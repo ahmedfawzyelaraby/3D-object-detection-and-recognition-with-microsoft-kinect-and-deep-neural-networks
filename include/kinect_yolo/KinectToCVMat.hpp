@@ -2,10 +2,13 @@
 
 #include "ros/ros.h"
 #include "sensor_msgs/Image.h"
-#include "cv_bridge/cv_bridge.h"
 #include "sensor_msgs/image_encodings.h"
+#include "cv_bridge/cv_bridge.h"
+
+#include "opencv2/opencv.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
+#include "yolo.h"
 
 #include <string>
 #include <cmath>
@@ -23,6 +26,7 @@ private:
 	ros::NodeHandle nodeHandle_;
 	ros::Subscriber RGBImageSubscriber;
 	ros::Subscriber DepthImageSubscriber;
+	Yolo YoloDNN;
 };
 
 }

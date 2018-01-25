@@ -1,35 +1,18 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(kinect_yolo)
+CMAKE_MINIMUM_REQUIRED  (VERSION 2.8.3)
+PROJECT(kinect_yolo)
 
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  sensor_msgs
-)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-catkin_package(
-  INCLUDE_DIRS
-    include
-#  LIBRARIES
-  CATKIN_DEPENDS 
-    roscpp
-    sensor_msgs
-    cv_bridge
-    image_transport
-#  DEPENDS 
-)
+FIND_PACKAGE(catkin REQUIRED COMPONENTS roscpp sensor_msgs cv_bridge)
+FIND_PACKAGE(CUDA REQUIRED)
+FIND_PACKAGE(OpenCV REQUIRED)
+  
+CATKIN_PACKAGE(INCLUDE_DIRS include CATKIN_DEPENDS roscpp sensor_msgs cv_bridge image_transport) #LIBRARIES #DEPENDS 
 
-include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-)
+INCLUDE_DIRECTORIES(include ${catkin_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(/usr/local/include/yolo_standalone_wrapper)
+INCLUDE_DIRECTORIES(${CUDA_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS})
 
-add_executable(${PROJECT_NAME} #${SOURCE_FILES} )
-  src/${PROJECT_NAME}_node.cpp
-  src/KinectToCVMat.cpp
-)
-target_link_libraries(${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-  ${OpenCV_LIBS}
-)
-
-
+ADD_EXECUTABLE(${PROJECT_NAME} src/${PROJECT_NAME}_node.cpp src/KinectToCVMat.cpp)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBS} libStandaloneYOLOWrapper.so)
