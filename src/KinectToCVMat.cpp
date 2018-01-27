@@ -4,14 +4,30 @@ namespace kinect_yolo {
 
 KinectToCVMat::KinectToCVMat(ros::NodeHandle& nodeHandle) : nodeHandle_(nodeHandle)
 {
-	RGBImageSubscriber = nodeHandle_.subscribe("/camera/rgb/image_color",10, &KinectToCVMat::RGBImageCallback, this);
-	DepthImageSubscriber = nodeHandle_.subscribe("/camera/depth/image",10, &KinectToCVMat::DepthImageCallback, this);
+	CFGFilePathParamName = ParamNameSeparator + NodeName + ParamNameSeparator + CFGFilePathParamName;
+	DataFilePathParamName = ParamNameSeparator + NodeName + ParamNameSeparator + DataFilePathParamName;
+	WeightsFilePathParamName = ParamNameSeparator + NodeName + ParamNameSeparator + WeightsFilePathParamName;
+	LabelsFilePathParamName = ParamNameSeparator + NodeName + ParamNameSeparator + LabelsFilePathParamName;
+	NamesFilePathParamName = ParamNameSeparator + NodeName + ParamNameSeparator + NamesFilePathParamName;
+	RGBImageTopicNameParamName = ParamNameSeparator + NodeName + ParamNameSeparator + RGBImageTopicNameParamName;
+	DepthImageTopicNameParamName = ParamNameSeparator + NodeName + ParamNameSeparator + DepthImageTopicNameParamName;
 
-	YoloDNN.setConfigFilePath("/home/ahmedfawzyelaraby/Thesis_WS/Code/YOLO_Darknet/darknet_old/cfg/tiny-yolo-voc.cfg");
-	YoloDNN.setDataFilePath("/home/ahmedfawzyelaraby/Thesis_WS/Code/YOLO_Darknet/darknet_old/cfg/voc.data");
-	YoloDNN.setWeightFilePath("/home/ahmedfawzyelaraby/Thesis_WS/Code/YOLO_Darknet/darknet_old/tiny-yolo-voc.weights");
-	YoloDNN.setAlphabetPath("/home/ahmedfawzyelaraby/Thesis_WS/Code/YOLO_Darknet/darknet_old/data/labels/");
-	YoloDNN.setNameListFile("/home/ahmedfawzyelaraby/Thesis_WS/Code/YOLO_Darknet/darknet/data/voc.names");
+	nodeHandle_.getParam(CFGFilePathParamName, CFGFilePath);
+	nodeHandle_.getParam(DataFilePathParamName, DataFilePath);
+	nodeHandle_.getParam(WeightsFilePathParamName, WeightsFilePath);
+	nodeHandle_.getParam(LabelsFilePathParamName, LabelsFilePath);
+	nodeHandle_.getParam(NamesFilePathParamName, NamesFilePath);
+	nodeHandle_.getParam(RGBImageTopicNameParamName, RGBImageTopicName);
+	nodeHandle_.getParam(DepthImageTopicNameParamName, DepthImageTopicName);
+
+	RGBImageSubscriber = nodeHandle_.subscribe(RGBImageTopicName,1000, &KinectToCVMat::RGBImageCallback, this);
+	DepthImageSubscriber = nodeHandle_.subscribe(DepthImageTopicName,1000, &KinectToCVMat::DepthImageCallback, this);
+
+	YoloDNN.setConfigFilePath(CFGFilePath.c_str());
+	YoloDNN.setDataFilePath(DataFilePath.c_str());
+	YoloDNN.setWeightFilePath(WeightsFilePath.c_str());
+	YoloDNN.setAlphabetPath(LabelsFilePath.c_str());
+	YoloDNN.setNameListFile(NamesFilePath.c_str());
 }
 
 KinectToCVMat::~KinectToCVMat()

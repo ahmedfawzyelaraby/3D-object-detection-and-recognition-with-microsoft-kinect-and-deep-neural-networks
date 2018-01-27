@@ -1,4 +1,22 @@
 <launch>
+	<arg name="rgb_image_topic" default="/camera/rgb/image_color" />
+	<arg name="depth_image_topic" default="/camera/depth/image" />
+	<arg name="cfg_file_path" default="/home/ahmedfawzyelaraby/Thesis_WS/Code/YOLO_Darknet/darknet_old/cfg/tiny-yolo-voc.cfg" />
+	<arg name="data_file_path" default="/home/ahmedfawzyelaraby/Thesis_WS/Code/YOLO_Darknet/darknet_old/cfg/voc.data" />
+	<arg name="weights_file_path" default="/home/ahmedfawzyelaraby/Thesis_WS/Code/YOLO_Darknet/darknet_old/tiny-yolo-voc.weights" />
+	<arg name="labels_path" default="/home/ahmedfawzyelaraby/Thesis_WS/Code/YOLO_Darknet/darknet_old/data/labels/" />
+	<arg name="names_file_path" default="/home/ahmedfawzyelaraby/Thesis_WS/Code/YOLO_Darknet/darknet/data/voc.names" />
+	
 	<include file="$(find freenect_launch)/launch/freenect.launch" />
-	<node name="kinect_yolo" pkg="kinect_yolo" type="kinect_yolo" output="screen" />
+	
+	<node name="kinect_yolo" pkg="kinect_yolo" type="kinect_yolo" output="screen" >
+		<param name="node_rgb_image_topic" type="str" value="$(arg rgb_image_topic)" />
+		<param name="node_depth_image_topic" type="str" value="$(arg depth_image_topic)" />
+		<param name="node_cfg_file_path" type="str" value="$(arg cfg_file_path)" />
+		<param name="node_data_file_path" type="str" value="$(arg data_file_path)" />
+		<param name="node_weights_file_path" type="str" value="$(arg weights_file_path)" />
+		<param name="node_labels_path" type="str" value="$(arg labels_path)" />
+		<param name="node_names_file_path" type="str" value="$(arg names_file_path)" />
+	</node>
+	
 </launch>

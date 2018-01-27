@@ -27,6 +27,22 @@ private:
 	ros::Subscriber RGBImageSubscriber;
 	ros::Subscriber DepthImageSubscriber;
 	Yolo YoloDNN;
+	const std::string NodeName = "kinect_yolo";
+	const std::string ParamNameSeparator = "/";
+	std::string CFGFilePathParamName = "node_cfg_file_path";
+	std::string DataFilePathParamName = "node_data_file_path";
+	std::string WeightsFilePathParamName = "node_weights_file_path";
+	std::string LabelsFilePathParamName = "node_labels_path";
+	std::string NamesFilePathParamName = "node_names_file_path";
+	std::string RGBImageTopicNameParamName = "node_rgb_image_topic";
+	std::string DepthImageTopicNameParamName = "node_depth_image_topic";
+	std::string CFGFilePath;
+	std::string DataFilePath;
+	std::string WeightsFilePath;
+	std::string LabelsFilePath;
+	std::string NamesFilePath;
+	std::string RGBImageTopicName;
+	std::string DepthImageTopicName;
 };
 
 }
