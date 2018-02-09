@@ -4,12 +4,19 @@ This is a c++ ROS node code, whose role is to read the RGB and Depth images from
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. **Please be noted that this code is tested on Ubuntu OS only**.
 ###Prerequisites
 Things you need on your local machine, in order to be able to compile and use this ROS node.
+
 - Nvidia GPU
+
 - [Compatible Nvidia Driver](http://www.nvidia.com/Download/index.aspx)
+
 - [Cuda Library](https://developer.nvidia.com/cuda-downloads)
+
 - [OpenCV Library 2.4](https://opencv.org/releases.html)
+
 - [Full version of ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu)
+
 - [Kinect driver ROS node](https://github.com/code-iai/iai_kinect2)
+
 - [YOLO Standalone Wrapper](https://AhmedFawzyElaraby@bitbucket.org/AhmedFawzyElaraby/yolo_standalone_wrapper.git)
 ###Installation
 ```
