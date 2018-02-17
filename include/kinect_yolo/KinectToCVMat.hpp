@@ -21,11 +21,13 @@ public:
 	virtual ~KinectToCVMat();
 	void RGBImageCallback(const sensor_msgs::Image&);
 	void DepthImageCallback(const sensor_msgs::Image&);
+	void IRImageCallback(const sensor_msgs::Image&);
 
 private:
 	ros::NodeHandle nodeHandle_;
 	ros::Subscriber RGBImageSubscriber;
 	ros::Subscriber DepthImageSubscriber;
+	ros::Subscriber IRImageSubscriber;
 	Yolo YoloDNN;
 	const std::string NodeName = "kinect_yolo";
 	const std::string ParamNameSeparator = "/";
@@ -36,6 +38,7 @@ private:
 	std::string NamesFilePathParamName = "node_names_file_path";
 	std::string RGBImageTopicNameParamName = "node_rgb_image_topic";
 	std::string DepthImageTopicNameParamName = "node_depth_image_topic";
+	std::string IRImageTopicNameParamName = "node_ir_image_topic";
 	std::string CFGFilePath;
 	std::string DataFilePath;
 	std::string WeightsFilePath;
@@ -43,6 +46,7 @@ private:
 	std::string NamesFilePath;
 	std::string RGBImageTopicName;
 	std::string DepthImageTopicName;
+	std::string IRImageTopicName;
 };
 
 }
