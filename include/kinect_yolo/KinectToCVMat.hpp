@@ -22,6 +22,7 @@ public:
 	void RGBImageCallback(const sensor_msgs::Image&);
 	void DepthImageCallback(const sensor_msgs::Image&);
 	void IRImageCallback(const sensor_msgs::Image&);
+	double DepthImageCalibrated(cv::Mat, cv::Rect);
 
 private:
 	ros::NodeHandle nodeHandle_;
@@ -29,6 +30,11 @@ private:
 	ros::Subscriber DepthImageSubscriber;
 	ros::Subscriber IRImageSubscriber;
 	Yolo YoloDNN;
+	std::vector<DetectedObject> VectorOfDetections;
+	std::vector<double> VectorOfDepthOfDetections;
+	cv::Size RGBImageSize;
+	cv::Size DepthImageSize;
+	cv::Size IRImageSize;
 	const std::string NodeName = "kinect_yolo";
 	const std::string ParamNameSeparator = "/";
 	std::string CFGFilePathParamName = "node_cfg_file_path";

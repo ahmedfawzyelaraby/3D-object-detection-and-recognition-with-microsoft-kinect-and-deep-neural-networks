@@ -31,6 +31,9 @@ KinectToCVMat::KinectToCVMat(ros::NodeHandle& nodeHandle) : nodeHandle_(nodeHand
 	YoloDNN.setWeightFilePath(WeightsFilePath.c_str());
 	YoloDNN.setAlphabetPath(LabelsFilePath.c_str());
 	YoloDNN.setNameListFile(NamesFilePath.c_str());
+
+	VectorOfDetections.clear();
+	VectorOfDepthOfDetections.clear();
 }
 
 KinectToCVMat::~KinectToCVMat()
@@ -44,8 +47,14 @@ void KinectToCVMat::RGBImageCallback(const sensor_msgs::Image& RGBImage)
 	cv_bridge::CvImagePtr RGBCVImage;
 	RGBCVImage = cv_bridge::toCvCopy(RGBImage, RGBImage.encoding);
 
-	std::vector<DetectedObject> VectorOfDetections;
-	YoloDNN.detect(RGBCVImage->image, VectorOfDetections);
+	RGBImageSize = RGBCVImage->image.size();
+
+	std::vector<DetectedObject> LocalVectorOfDetections;
+	YoloDNN.detect(RGBCVImage->image, LocalVectorOfDetections);
+
+	VectorOfDetections = LocalVectorOfDetections;
+
+	ROS_INFO_STREAM("RGB Vector Size: " << VectorOfDetections.size());
 }
 
 void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
@@ -55,6 +64,18 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 	cv_bridge::CvImagePtr DepthCVImage;
 	DepthCVImage = cv_bridge::toCvCopy(DepthImage, DepthImage.encoding);
 
+	DepthImageSize = DepthCVImage->image.size();
+
+	ROS_INFO_STREAM("Depth Vector Size: " << VectorOfDetections.size());
+	ROS_INFO_STREAM("Depth Vector Content: " << VectorOfDetections.empty());
+
+	if (!(VectorOfDetections.empty()))
+	{
+		for (int i = 0; i < VectorOfDetections.size(); i++)
+		{
+			DepthImageCalibrated(DepthCVImage->image, VectorOfDetections[i].bounding_box);
+		}
+	}
 }
 
 void KinectToCVMat::IRImageCallback(const sensor_msgs::Image& IRImage)
@@ -63,6 +84,13 @@ void KinectToCVMat::IRImageCallback(const sensor_msgs::Image& IRImage)
 
 	cv_bridge::CvImagePtr IRCVImage;
 	IRCVImage = cv_bridge::toCvCopy(IRImage, IRImage.encoding);
+
+	IRImageSize = IRCVImage->image.size();
+}
+
+double KinectToCVMat::DepthImageCalibrated(cv::Mat DepthImage, cv::Rect ObjectBoundingBox)
+{
+	return 0.0;
 }
 
 }
