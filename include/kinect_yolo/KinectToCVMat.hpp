@@ -32,9 +32,8 @@ private:
 	Yolo YoloDNN;
 	std::vector<DetectedObject> VectorOfDetections;
 	std::vector<double> VectorOfDepthOfDetections;
-	cv::Size RGBImageSize;
+	cv::Size DetectionImageSize;
 	cv::Size DepthImageSize;
-	cv::Size IRImageSize;
 	const std::string NodeName = "kinect_yolo";
 	const std::string ParamNameSeparator = "/";
 	std::string CFGFilePathParamName = "node_cfg_file_path";

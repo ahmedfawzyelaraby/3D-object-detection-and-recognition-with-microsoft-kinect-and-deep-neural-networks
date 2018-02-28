@@ -47,7 +47,7 @@ void KinectToCVMat::RGBImageCallback(const sensor_msgs::Image& RGBImage)
 	cv_bridge::CvImagePtr RGBCVImage;
 	RGBCVImage = cv_bridge::toCvCopy(RGBImage, RGBImage.encoding);
 
-	RGBImageSize = RGBCVImage->image.size();
+	DetectionImageSize = RGBCVImage->image.size();
 
 	std::vector<DetectedObject> LocalVectorOfDetections;
 	YoloDNN.detect(RGBCVImage->image, LocalVectorOfDetections);
@@ -73,7 +73,7 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 	{
 		for (int i = 0; i < VectorOfDetections.size(); i++)
 		{
-			DepthImageCalibrated(DepthCVImage->image, VectorOfDetections[i].bounding_box);
+			ROS_INFO_STREAM("Depth Pixel Value: " << DepthImageCalibrated(DepthCVImage->image, VectorOfDetections[i].bounding_box));
 		}
 	}
 }
@@ -84,13 +84,18 @@ void KinectToCVMat::IRImageCallback(const sensor_msgs::Image& IRImage)
 
 	cv_bridge::CvImagePtr IRCVImage;
 	IRCVImage = cv_bridge::toCvCopy(IRImage, IRImage.encoding);
-
-	IRImageSize = IRCVImage->image.size();
 }
 
 double KinectToCVMat::DepthImageCalibrated(cv::Mat DepthImage, cv::Rect ObjectBoundingBox)
 {
-	return 0.0;
+	cv::Rect ScalledObjectBoundingBox = cv::Rect( int(ObjectBoundingBox.x*DepthImageSize.width/DetectionImageSize.width), int(ObjectBoundingBox.y*DepthImageSize.height/DetectionImageSize.height), int(ObjectBoundingBox.width*DepthImageSize.width/DetectionImageSize.width), int(ObjectBoundingBox.height*DepthImageSize.height/DetectionImageSize.height));
+
+	cv::Mat CroppedDepthImage = DepthImage(ScalledObjectBoundingBox);
+
+	ROS_INFO_STREAM("Before Resize: " << ObjectBoundingBox);
+	ROS_INFO_STREAM("Before Resize: " << ScalledObjectBoundingBox);
+
+	return CroppedDepthImage.at<unsigned short>(CroppedDepthImage.cols/2, CroppedDepthImage.rows/2);
 }
 
 }
