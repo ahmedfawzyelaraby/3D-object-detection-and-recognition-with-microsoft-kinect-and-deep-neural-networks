@@ -49,12 +49,12 @@ void KinectToCVMat::RGBImageCallback(const sensor_msgs::Image& RGBImage)
 
 	DetectionImageSize = RGBCVImage->image.size();
 
-	std::vector<DetectedObject> LocalVectorOfDetections;
-	YoloDNN.detect(RGBCVImage->image, LocalVectorOfDetections);
+	// std::vector<DetectedObject> LocalVectorOfDetections;
+	// YoloDNN.detect(RGBCVImage->image, LocalVectorOfDetections);
 
-	VectorOfDetections = LocalVectorOfDetections;
+	// VectorOfDetections = LocalVectorOfDetections;
 
-	ROS_INFO_STREAM("RGB Vector Size: " << VectorOfDetections.size());
+	// ROS_INFO_STREAM("RGB Vector Size: " << VectorOfDetections.size());
 }
 
 void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
@@ -66,16 +66,16 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 
 	DepthImageSize = DepthCVImage->image.size();
 
-	ROS_INFO_STREAM("Depth Vector Size: " << VectorOfDetections.size());
-	ROS_INFO_STREAM("Depth Vector Content: " << VectorOfDetections.empty());
+	// ROS_INFO_STREAM("Depth Vector Size: " << VectorOfDetections.size());
+	// ROS_INFO_STREAM("Depth Vector Content: " << VectorOfDetections.empty());
 
-	if (!(VectorOfDetections.empty()))
-	{
-		for (int i = 0; i < VectorOfDetections.size(); i++)
-		{
-			ROS_INFO_STREAM("Depth Pixel Value: " << DepthImageCalibrated(DepthCVImage->image, VectorOfDetections[i].bounding_box));
-		}
-	}
+	// if (!(VectorOfDetections.empty()))
+	// {
+	// 	for (int i = 0; i < VectorOfDetections.size(); i++)
+	// 	{
+	// 		ROS_INFO_STREAM("Depth Pixel Value: " << DepthImageCalibrated(DepthCVImage->image, VectorOfDetections[i].bounding_box));
+	// 	}
+	// }
 }
 
 void KinectToCVMat::IRImageCallback(const sensor_msgs::Image& IRImage)
@@ -84,6 +84,14 @@ void KinectToCVMat::IRImageCallback(const sensor_msgs::Image& IRImage)
 
 	cv_bridge::CvImagePtr IRCVImage;
 	IRCVImage = cv_bridge::toCvCopy(IRImage, IRImage.encoding);
+
+	// cv::Mat IRCVImage3Channel;
+	// cv::cvtColor(IRCVImage->image, IRCVImage3Channel, cv::COLOR_GRAY2BGR);
+
+	// std::vector<DetectedObject> LocalVectorOfDetections;
+	// YoloDNN.detect(IRCVImage3Channel, LocalVectorOfDetections);
+
+	// VectorOfDetections = LocalVectorOfDetections;
 }
 
 double KinectToCVMat::DepthImageCalibrated(cv::Mat DepthImage, cv::Rect ObjectBoundingBox)
