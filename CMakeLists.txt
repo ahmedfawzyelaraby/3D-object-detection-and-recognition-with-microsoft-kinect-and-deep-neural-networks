@@ -3,11 +3,14 @@ PROJECT(kinect_yolo)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-FIND_PACKAGE(catkin REQUIRED COMPONENTS roscpp sensor_msgs cv_bridge)
+FIND_PACKAGE(catkin REQUIRED COMPONENTS roscpp sensor_msgs cv_bridge message_generation)
 FIND_PACKAGE(CUDA REQUIRED)
 FIND_PACKAGE(OpenCV REQUIRED)
   
-CATKIN_PACKAGE(INCLUDE_DIRS include CATKIN_DEPENDS roscpp sensor_msgs cv_bridge image_transport) #LIBRARIES #DEPENDS 
+ADD_MESSAGE_FILES(FILES DepthAndDetections.msg)
+GENERATE_MESSAGES(DEPENDENCIES std_msgs)
+
+CATKIN_PACKAGE(INCLUDE_DIRS include CATKIN_DEPENDS roscpp sensor_msgs cv_bridge message_runtime) #LIBRARIES #DEPENDS 
 
 INCLUDE_DIRECTORIES(include ${catkin_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(/usr/local/include/yolo_standalone_wrapper)
