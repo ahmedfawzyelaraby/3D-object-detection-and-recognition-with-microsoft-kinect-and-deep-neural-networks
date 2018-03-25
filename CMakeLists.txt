@@ -7,7 +7,7 @@ FIND_PACKAGE(catkin REQUIRED COMPONENTS roscpp sensor_msgs cv_bridge message_gen
 FIND_PACKAGE(CUDA REQUIRED)
 FIND_PACKAGE(OpenCV REQUIRED)
   
-ADD_MESSAGE_FILES(FILES DepthAndDetections.msg)
+ADD_MESSAGE_FILES(DIRECTORY msg FILES DepthAndDetections.msg)
 GENERATE_MESSAGES(DEPENDENCIES std_msgs)
 
 CATKIN_PACKAGE(INCLUDE_DIRS include CATKIN_DEPENDS roscpp sensor_msgs cv_bridge message_runtime) #LIBRARIES #DEPENDS 

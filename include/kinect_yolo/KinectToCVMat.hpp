@@ -4,6 +4,7 @@
 #include "sensor_msgs/Image.h"
 #include "sensor_msgs/image_encodings.h"
 #include "cv_bridge/cv_bridge.h"
+#include "kinect_yolo/DepthAndDetections.h"
 
 #include "opencv2/opencv.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -12,6 +13,7 @@
 
 #include <string>
 #include <cmath>
+#include <vector>
 
 namespace kinect_yolo {
 
@@ -21,14 +23,15 @@ public:
 	virtual ~KinectToCVMat();
 	void RGBImageCallback(const sensor_msgs::Image&);
 	void DepthImageCallback(const sensor_msgs::Image&);
-	void IRImageCallback(const sensor_msgs::Image&);
-	double DepthImageCalibrated(cv::Mat, cv::Rect);
+	// void IRImageCallback(const sensor_msgs::Image&);
+	double CalibratedDepthValue(cv::Mat, cv::Rect);
 
 private:
 	ros::NodeHandle nodeHandle_;
 	ros::Subscriber RGBImageSubscriber;
 	ros::Subscriber DepthImageSubscriber;
 	ros::Subscriber IRImageSubscriber;
+	ros::Publisher DetectionsAndDepthsPublisher;
 	Yolo YoloDNN;
 	std::vector<DetectedObject> VectorOfDetections;
 	std::vector<double> VectorOfDepthOfDetections;
@@ -52,6 +55,7 @@ private:
 	std::string RGBImageTopicName;
 	std::string DepthImageTopicName;
 	std::string IRImageTopicName;
+	std::string DetectionsTopicName = "detections_and_depth";
 };
 
 }
