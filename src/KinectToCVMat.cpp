@@ -85,6 +85,7 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 	VectorOfDepthOfDetections = LocalVectorOfDepthOfDetections;
 
 	kinect_yolo::DepthAndDetections DetectionsMessage;
+	DetectionsMessage.Light = true;
 	DetectionsMessage.VectorLength = VectorOfDetections.size();
 	DetectionsMessage.DetectionsX = DetectionsX;
 	DetectionsMessage.DetectionsY = DetectionsY;
