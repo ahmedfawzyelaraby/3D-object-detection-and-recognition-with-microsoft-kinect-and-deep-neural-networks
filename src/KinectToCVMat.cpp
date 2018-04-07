@@ -71,6 +71,7 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 	std::vector<unsigned int> DetectionsY;
 	std::vector<unsigned int> DetectionsW;
 	std::vector<unsigned int> DetectionsH;
+	std::vector<std::string> DetectionsN;
 	if (!(VectorOfDetections.empty()))
 	{
 		for (int i = 0; i < VectorOfDetections.size(); i++)
@@ -79,6 +80,7 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 			DetectionsY.push_back(VectorOfDetections[i].bounding_box.y);
 			DetectionsW.push_back(VectorOfDetections[i].bounding_box.width);
 			DetectionsH.push_back(VectorOfDetections[i].bounding_box.height);
+			DetectionsN.push_back(YoloDNN.getNames()[VectorOfDetections[i].object_class]);
 			LocalVectorOfDepthOfDetections.push_back(this->CalibratedDepthValue(DepthCVImage->image, VectorOfDetections[i].bounding_box));
 		}
 	}
@@ -92,6 +94,7 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 	DetectionsMessage.DetectionsWidth = DetectionsW;
 	DetectionsMessage.DetectionsHeight = DetectionsH;
 	DetectionsMessage.EquivalentDepth = VectorOfDepthOfDetections;
+	DetectionsMessage.DetectionsName = DetectionsN;
 	DetectionsAndDepthsPublisher.publish(DetectionsMessage);
 }
 
