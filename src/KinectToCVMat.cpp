@@ -35,6 +35,8 @@ KinectToCVMat::KinectToCVMat(ros::NodeHandle& nodeHandle) : nodeHandle_(nodeHand
 	YoloDNN.setWeightFilePath(WeightsFilePath.c_str());
 	YoloDNN.setAlphabetPath(LabelsFilePath.c_str());
 	YoloDNN.setNameListFile(NamesFilePath.c_str());
+	
+	VectorOfClassesNames = GetClassesNames(NamesFilePath);
 
 	VectorOfDetections.clear();
 	VectorOfDepthOfDetections.clear();
@@ -80,7 +82,7 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 			DetectionsY.push_back(VectorOfDetections[i].bounding_box.y);
 			DetectionsW.push_back(VectorOfDetections[i].bounding_box.width);
 			DetectionsH.push_back(VectorOfDetections[i].bounding_box.height);
-			DetectionsN.push_back(YoloDNN.getNames()[VectorOfDetections[i].object_class]);
+			DetectionsN.push_back(VectorOfClassesNames[VectorOfDetections[i].object_class]);
 			LocalVectorOfDepthOfDetections.push_back(this->CalibratedDepthValue(DepthCVImage->image, VectorOfDetections[i].bounding_box));
 		}
 	}
@@ -126,5 +128,19 @@ double KinectToCVMat::CalibratedDepthValue(cv::Mat DepthImage, cv::Rect ObjectBo
 	// test which is better
 }
 
+std::vector<std::string> KinectToCVMat::GetClassesNames(std::string NamesFilePath)
+{
+	std::ifstream NamesFile(NamesFilePath);
+	std::vector<std::string> ClassesVector;
+	
+	std::string Line;
+
+	while(std::getline(NamesFile, Line))
+	{
+		ClassesVector.push_back(Line);
+	}
+
+	return ClassesVector;
 }
 
+}
