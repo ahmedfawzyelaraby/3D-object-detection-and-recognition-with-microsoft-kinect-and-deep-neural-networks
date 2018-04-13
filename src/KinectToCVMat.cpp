@@ -40,6 +40,8 @@ KinectToCVMat::KinectToCVMat(ros::NodeHandle& nodeHandle) : nodeHandle_(nodeHand
 
 	VectorOfDetections.clear();
 	VectorOfDepthOfDetections.clear();
+
+	InitiateClassesColors(VectorOfClassesNames.size());
 }
 
 KinectToCVMat::~KinectToCVMat()
@@ -74,6 +76,9 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 	std::vector<unsigned int> DetectionsW;
 	std::vector<unsigned int> DetectionsH;
 	std::vector<std::string> DetectionsN;
+	std::vector<unsigned int> DetectionsR;
+	std::vector<unsigned int> DetectionsG;
+	std::vector<unsigned int> DetectionsB;
 	if (!(VectorOfDetections.empty()))
 	{
 		for (int i = 0; i < VectorOfDetections.size(); i++)
@@ -83,6 +88,9 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 			DetectionsW.push_back(VectorOfDetections[i].bounding_box.width);
 			DetectionsH.push_back(VectorOfDetections[i].bounding_box.height);
 			DetectionsN.push_back(VectorOfClassesNames[VectorOfDetections[i].object_class]);
+			DetectionsR.push_back(VectorOfClassesRColor[VectorOfDetections[i].object_class]);
+			DetectionsG.push_back(VectorOfClassesGColor[VectorOfDetections[i].object_class]);
+			DetectionsB.push_back(VectorOfClassesBColor[VectorOfDetections[i].object_class]);
 			LocalVectorOfDepthOfDetections.push_back(this->CalibratedDepthValue(DepthCVImage->image, VectorOfDetections[i].bounding_box));
 		}
 	}
@@ -97,6 +105,9 @@ void KinectToCVMat::DepthImageCallback(const sensor_msgs::Image& DepthImage)
 	DetectionsMessage.DetectionsHeight = DetectionsH;
 	DetectionsMessage.EquivalentDepth = VectorOfDepthOfDetections;
 	DetectionsMessage.DetectionsName = DetectionsN;
+	DetectionsMessage.DetectionsRColor = DetectionsR;
+	DetectionsMessage.DetectionsGColor = DetectionsG;
+	DetectionsMessage.DetectionsBColor = DetectionsB;
 	DetectionsAndDepthsPublisher.publish(DetectionsMessage);
 }
 
@@ -141,6 +152,20 @@ std::vector<std::string> KinectToCVMat::GetClassesNames(std::string NamesFilePat
 	}
 
 	return ClassesVector;
+}
+
+void KinectToCVMat::InitiateClassesColors(int NumberOfClasses)
+{
+	srand(time(0));
+	for (int iterator = 0; iterator < NumberOfClasses; iterator++)
+	{
+		int R = (rand() % 256);
+		int G = (rand() % 256);
+		int B = (rand() % 256);
+		VectorOfClassesRColor.push_back(R);
+		VectorOfClassesGColor.push_back(G);
+		VectorOfClassesBColor.push_back(B);
+	}
 }
 
 }

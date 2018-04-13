@@ -15,6 +15,8 @@
 #include <cmath>
 #include <vector>
 #include <fstream>
+#include <ctime>
+#include <cstdlib>
 
 namespace kinect_yolo {
 
@@ -27,6 +29,7 @@ public:
 	// void IRImageCallback(const sensor_msgs::Image&);
 	double CalibratedDepthValue(cv::Mat, cv::Rect);
 	std::vector<std::string> GetClassesNames(std::string);
+	void InitiateClassesColors(int);
 
 private:
 	ros::NodeHandle nodeHandle_;
@@ -38,6 +41,9 @@ private:
 	std::vector<DetectedObject> VectorOfDetections;
 	std::vector<double> VectorOfDepthOfDetections;
 	std::vector<std::string> VectorOfClassesNames;
+	std::vector<int> VectorOfClassesRColor;
+	std::vector<int> VectorOfClassesGColor;
+	std::vector<int> VectorOfClassesBColor;
 	cv::Size DetectionImageSize;
 	cv::Size DepthImageSize;
 	const std::string NodeName = "kinect_yolo";
