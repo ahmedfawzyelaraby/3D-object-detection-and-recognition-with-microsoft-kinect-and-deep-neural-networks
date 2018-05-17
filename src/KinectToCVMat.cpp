@@ -133,9 +133,7 @@ double KinectToCVMat::CalibratedDepthValue(cv::Mat DepthImage, cv::Rect ObjectBo
 
 	cv::Mat CroppedDepthImage = DepthImage(ScalledObjectBoundingBox);
 
-	ROS_INFO_STREAM(cv::mean(CroppedDepthImage).val[0] << "\t" << CroppedDepthImage.at<unsigned short>(CroppedDepthImage.cols/2, CroppedDepthImage.rows/2));
-
-	return CroppedDepthImage.at<unsigned short>(CroppedDepthImage.cols/2, CroppedDepthImage.rows/2);
+	return cv::mean(CroppedDepthImage).val[0] / this->ConversionFromMiliMeterToMeter; //CroppedDepthImage.at<unsigned short>(CroppedDepthImage.cols/2, CroppedDepthImage.rows/2);
 	// test which is better
 }
 

@@ -65,6 +65,7 @@ private:
 	std::string DepthImageTopicName;
 	std::string IRImageTopicName;
 	std::string DetectionsTopicName = "detections_and_depth";
+	double ConversionFromMiliMeterToMeter = 1000.0;
 };
 
 }
