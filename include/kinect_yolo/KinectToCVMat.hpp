@@ -66,6 +66,8 @@ private:
 	std::string IRImageTopicName;
 	std::string DetectionsTopicName = "detections_and_depth";
 	double ConversionFromMiliMeterToMeter = 1000.0;
+	int minimumClippingValueMM = 0;
+	int maximumClippingValueMM = 8000;
 };
 
 }

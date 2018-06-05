@@ -133,7 +133,10 @@ double KinectToCVMat::CalibratedDepthValue(cv::Mat DepthImage, cv::Rect ObjectBo
 
 	cv::Mat CroppedDepthImage = DepthImage(ScalledObjectBoundingBox);
 
-	return cv::mean(CroppedDepthImage).val[0] / this->ConversionFromMiliMeterToMeter; //CroppedDepthImage.at<unsigned short>(CroppedDepthImage.cols/2, CroppedDepthImage.rows/2);
+	double returnValue = (cv::mean(CroppedDepthImage, CroppedDepthImage != this->minimumClippingValueMM).val[0] + cv::mean(CroppedDepthImage, CroppedDepthImage < this->maximumClippingValueMM).val[0]) / 2.0;
+
+	return returnValue / this->ConversionFromMiliMeterToMeter; 
+	//return CroppedDepthImage.at<unsigned short>(CroppedDepthImage.cols/2, CroppedDepthImage.rows/2) / this->ConversionFromMiliMeterToMeter;
 	// test which is better
 }
 
