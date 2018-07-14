@@ -17,6 +17,7 @@
 #include <fstream>
 #include <ctime>
 #include <cstdlib>
+#include <cmath>
 
 namespace kinect_yolo {
 
@@ -30,6 +31,7 @@ public:
 	double CalibratedDepthValue(cv::Mat, cv::Rect);
 	std::vector<std::string> GetClassesNames(std::string);
 	void InitiateClassesColors(int);
+	double depthCalculationAlgorithm(cv::Mat);
 
 private:
 	ros::NodeHandle nodeHandle_;
@@ -68,6 +70,7 @@ private:
 	double ConversionFromMiliMeterToMeter = 1000.0;
 	int minimumClippingValueMM = 0;
 	int maximumClippingValueMM = 8000;
+	int depthAlgorithmNumberOfGridCells = 9;
 };
 
 }

@@ -133,11 +133,12 @@ double KinectToCVMat::CalibratedDepthValue(cv::Mat DepthImage, cv::Rect ObjectBo
 
 	cv::Mat CroppedDepthImage = DepthImage(ScalledObjectBoundingBox);
 
-	double returnValue = (cv::mean(CroppedDepthImage, CroppedDepthImage != this->minimumClippingValueMM).val[0] + cv::mean(CroppedDepthImage, CroppedDepthImage < this->maximumClippingValueMM).val[0]) / 2.0;
+	// double returnValue = (cv::mean(CroppedDepthImage, CroppedDepthImage != this->minimumClippingValueMM).val[0] + cv::mean(CroppedDepthImage, CroppedDepthImage < this->maximumClippingValueMM).val[0]) / 2.0;
 
-	return returnValue / this->ConversionFromMiliMeterToMeter; 
+	// return returnValue / this->ConversionFromMiliMeterToMeter; 
 	//return CroppedDepthImage.at<unsigned short>(CroppedDepthImage.cols/2, CroppedDepthImage.rows/2) / this->ConversionFromMiliMeterToMeter;
 	// test which is better
+	return depthCalculationAlgorithm(CroppedDepthImage);
 }
 
 std::vector<std::string> KinectToCVMat::GetClassesNames(std::string NamesFilePath)
@@ -167,6 +168,24 @@ void KinectToCVMat::InitiateClassesColors(int NumberOfClasses)
 		VectorOfClassesGColor.push_back(G);
 		VectorOfClassesBColor.push_back(B);
 	}
+}
+
+double KinectToCVMat::depthCalculationAlgorithm(cv::Mat depthImageBoundingBoxedPart)
+{
+	int girdCellsSideNumber = sqrt(this->depthAlgorithmNumberOfGridCells);
+	int gridCellWidth = double(depthImageBoundingBoxedPart.cols) / double(girdCellsSideNumber);
+	int gridCellHeight = double(depthImageBoundingBoxedPart.rows) / double(girdCellsSideNumber);
+	std::vector<double> listOfGridCellsMeans;
+	for(int widthIterator = 0; widthIterator < girdCellsSideNumber; widthIterator++)
+	{
+		for(int heightIterator = 0; heightIterator < girdCellsSideNumber; heightIterator++)
+		{
+			cv::Mat gridImage = depthImageBoundingBoxedPart(cv::Rect((widthIterator * gridCellWidth), (heightIterator * gridCellHeight), ((((widthIterator+1) * gridCellWidth) <= depthImageBoundingBoxedPart.cols) ? gridCellWidth : (depthImageBoundingBoxedPart.cols - widthIterator * gridCellWidth)), ((((heightIterator+1) * gridCellHeight) <= depthImageBoundingBoxedPart.rows) ? gridCellHeight : (depthImageBoundingBoxedPart.rows - heightIterator * gridCellHeight))));
+			listOfGridCellsMeans.push_back((cv::mean(gridImage, gridImage != this->minimumClippingValueMM).val[0] + cv::mean(gridImage, gridImage < this->maximumClippingValueMM).val[0]) / 2.0);
+		}
+	}
+	std::sort(listOfGridCellsMeans.begin(), listOfGridCellsMeans.end());
+	return listOfGridCellsMeans[this->depthAlgorithmNumberOfGridCells / 2] / this->ConversionFromMiliMeterToMeter; 
 }
 
 }
