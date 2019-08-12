@@ -1,4 +1,4 @@
-#Kinect 3D Object Detection and Recognition ROS Node
+# Kinect 3D Object Detection and Recognition ROS Node
 This is a c++ ROS node code, whose role is to read the RGB and Depth images from the kinect. It passes the RGB images to YOLO wrapper. Then, it takes the objects output from YOLO, maps them to the Depth images, and gets the depth of each object.
 ##Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. **Please be noted that this code is tested on Ubuntu OS only**.
@@ -18,14 +18,14 @@ Things you need on your local machine, in order to be able to compile and use th
 - [Kinect driver ROS node](https://github.com/code-iai/iai_kinect2)
 
 - [YOLO Standalone Wrapper](https://AhmedFawzyElaraby@bitbucket.org/AhmedFawzyElaraby/yolo_standalone_wrapper.git)
-###Installation
+### Installation
 ```
 $ cd [ROS_WorkSpace]/src
 $ git clone https://AhmedFawzyElaraby@bitbucket.org/AhmedFawzyElaraby/ros_kinect_to_yolo_node.git
 $ source ../depl/setup.bash
 $ catkin build kinect_yolo
 ```
-###Deployment
+### Deployment
 All you have to do is to launch the ROS launch file attached with the node and it will launch roscore, launch the kinect driver's node, and launch yolo node:
 ```
 $ cd [ROS_WorkSpace]/src
