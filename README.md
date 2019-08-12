@@ -2,7 +2,7 @@
 This is a c++ ROS node code, whose role is to read the RGB and Depth images from the kinect. It passes the RGB images to YOLO wrapper. Then, it takes the objects output from YOLO, maps them to the Depth images, and gets the depth of each object.
 ##Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. **Please be noted that this code is tested on Ubuntu OS only**.
-###Prerequisites
+### Prerequisites
 Things you need on your local machine, in order to be able to compile and use this ROS node.
 
 - Nvidia GPU
