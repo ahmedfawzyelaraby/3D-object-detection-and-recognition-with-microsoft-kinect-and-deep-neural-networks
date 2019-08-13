@@ -13,9 +13,9 @@ GENERATE_MESSAGES(DEPENDENCIES std_msgs)
 CATKIN_PACKAGE(INCLUDE_DIRS include CATKIN_DEPENDS roscpp sensor_msgs cv_bridge message_runtime) #LIBRARIES #DEPENDS 
 
 INCLUDE_DIRECTORIES(include ${catkin_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(/usr/local/include/yolo_standalone_wrapper)
+INCLUDE_DIRECTORIES(/usr/local/include/yolo-v2-gpu-wrapper)
 INCLUDE_DIRECTORIES(${CUDA_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS})
 
 ADD_EXECUTABLE(${PROJECT_NAME} src/${PROJECT_NAME}_node.cpp src/KinectToCVMat.cpp)
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBS} libStandaloneYOLOWrapper.so)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBS} libYOLOGPUWrapper.so)
