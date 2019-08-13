@@ -58,20 +58,69 @@ $ cd ros-workspace
 $ catkin_make
 $ source devel/setup.bash
 ```
-- [Kinect driver ROS node](https://github.com/code-iai/iai_kinect2)
-
-- [YOLO Standalone Wrapper](https://AhmedFawzyElaraby@bitbucket.org/AhmedFawzyElaraby/yolo_standalone_wrapper.git)
+- [FreeNect 2 Library](https://github.com/OpenKinect/libfreenect2)
+```
+$ cd ~/Downloads
+$ git clone https://github.com/OpenKinect/libfreenect2.git
+$ cd libfreenect2
+$ git checkout v0.2.0
+$ cd depends
+$ ./download_debs_trusty.sh
+$ sudo apt-get install build-essential cmake pkg-config
+$ sudo dpkg -i debs/libusb*deb
+$ sudo apt-get install libturbojpeg libjpeg-turbo8-dev
+$ sudo dpkg -i debs/libglfw3*deb; sudo apt-get install -f
+$ cd ..
+$ mkdir build && cd build
+$ cmake  -DCMAKE_INSTALL_PREFIX=[where-you-want-to-put-your-code-in]/freenect2 -DENABLE_CXX11=ON
+$ make -j
+$ sudo make install
+```
+- [Kinect V2 ROS Driver](https://github.com/code-iai/iai_kinect2)
+```
+$ cd [where-you-want-to-put-your-code-in]/ros-workspace/src
+$ sudo apt-get install mesa-utils
+$ git clone https://github.com/code-iai/iai_kinect2.git
+$ cd iai_kinect2
+$ rosdep install -r --from-paths .
+$ cd [where-you-want-to-put-your-code-in]/ros-workspace
+$ catkin_make -DCMAKE_BUILD_TYPE="Release" -DENABLE_OPENCL=OFF -Dfreenect2_DIR=[where-you-want-to-put-your-code-in]/freenect2/lib/cmake/freenect2
+```
+- [YOLO V2 GPU Wrapper](https://github.com/ahmedfawzyelaraby/yolo-v2-gpu-wrapper.git)
+```
+$ cd [where-you-want-to-put-your-code-in]
+$ git clone https://github.com/ahmedfawzyelaraby/yolo-v2-gpu-wrapper.git
+$ cd yolo-v2-gpu-wrapper
+$ $ mkdir build
+$ cd build
+$ cmake ..
+$ make -j
+$ make -j
+$ sudo make install
+```
+- [3D Object Detection and Recognition to RGB Image Viewer](https://github.com/ahmedfawzyelaraby/3D-object-detection-and-recognition-to-rgb-image-viewer.git)
+```
+$ cd [where-you-want-to-put-your-code-in]/ros-workspace/src
+$ git clone https://github.com/ahmedfawzyelaraby/3D-object-detection-and-recognition-to-rgb-image-viewer.git
+```
+- YOLO Weights and Configuration Files
+```
+$ cd [where-you-want-to-put-your-code-in]
+$ mkdir yolo-files
+$ 
+```
 ### Installation
 ```
-$ cd [ROS_WorkSpace]/src
-$ git clone https://AhmedFawzyElaraby@bitbucket.org/AhmedFawzyElaraby/ros_kinect_to_yolo_node.git
-$ source ../depl/setup.bash
-$ catkin build kinect_yolo
+$ cd [where-you-want-to-put-your-code-in]/ros-workspace/src
+$ git clone https://github.com/ahmedfawzyelaraby/3D-object-detection-and-recognition-with-microsoft-kinect-and-deep-neural-networks.git
+$ cd ../
+$ source ./depl/setup.bash
+$ catkin_make -only-pkg-with-deps kinect_yolo
 ```
 ### Deployment
 All you have to do is to launch the ROS launch file attached with the node and it will launch roscore, launch the kinect driver's node, and launch yolo node:
 ```
-$ cd [ROS_WorkSpace]/src
+$ cd [where-you-want-to-put-your-code-in]/ros-workspace/src
 $ source ../depl/setup.bash
-$ roslaunch kinect_yolo/launch/kinect.launch
+$ roslaunch kinect_yolo/launch/kinect.launch [yolo-data-files]
 ```
