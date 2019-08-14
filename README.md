@@ -2,6 +2,7 @@
 This is a ROS based c++ code, whose role is to read the RGB and Depth images from the kinect, pass the RGB images to YOLO wrapper and then take the objects output from YOLO, maps them to the Depth images, and gets the depth of each object. This code was part of the work submited by [me](https://www.linkedin.com/in/ahmedfawzyelaraby/) in my [master's degree](https://www.researchgate.net/publication/335127899_3D_Object_Detection_and_Classification_Using_Microsoft_Kinect_and_Deep_Neural_Networks).
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. **Please be noted that this code is tested on Ubuntu OS only**.
+### System Overview
 ### Prerequisites
 Things you need on your local machine, in order to be able to compile and use this ROS node.
 
@@ -104,10 +105,10 @@ $ cd [where-you-want-to-put-your-code-in]/ros-workspace/src
 $ git clone https://github.com/ahmedfawzyelaraby/3D-object-detection-and-recognition-to-rgb-image-viewer.git
 ```
 - YOLO Weights and Configuration Files
+This system is tested with specific weights, configuration and label files of YOLO, which you can find as compressed folder [here](https://drive.google.com/file/d/1WvBKo099NwbUBXkKDYVg7UFeungU_ldv/view?usp=sharing). Download this compressed folder to [where-you-want-to-put-your-code-in].
 ```
 $ cd [where-you-want-to-put-your-code-in]
-$ mkdir yolo-files
-$ 
+$ tar -zxvf yolo-files.tar.gz
 ```
 ### Installation
 ```
@@ -122,5 +123,6 @@ All you have to do is to launch the ROS launch file attached with the node and i
 ```
 $ cd [where-you-want-to-put-your-code-in]/ros-workspace/src
 $ source ../depl/setup.bash
-$ roslaunch kinect_yolo/launch/kinect.launch [yolo-data-files]
+$ roslaunch kinect_yolo/launch/kinect.launch cfg_file_path:=[where-you-want-to-put-your-code-in]/yolo-files/yolo.cfg data_file_path:=[where-you-want-to-put-your-code-in]/yolo-files/coco.data weights_file_path:=[where-you-want-to-put-your-code-in]/yolo-files/yolo.weights labels_path:=[where-you-want-to-put-your-code-in]/yolo-files/labels/ names_file_path:=[where-you-want-to-put-your-code-in]/yolo-files/coco.names
 ```
+### Sample Result
