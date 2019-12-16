@@ -126,4 +126,3 @@ $ cd [where-you-want-to-put-your-code-in]/ros-workspace/src
 $ source ../depl/setup.bash
 $ roslaunch kinect_yolo/launch/kinect.launch cfg_file_path:=[where-you-want-to-put-your-code-in]/yolo-files/yolo.cfg data_file_path:=[where-you-want-to-put-your-code-in]/yolo-files/coco.data weights_file_path:=[where-you-want-to-put-your-code-in]/yolo-files/yolo.weights labels_path:=[where-you-want-to-put-your-code-in]/yolo-files/labels/ names_file_path:=[where-you-want-to-put-your-code-in]/yolo-files/coco.names
 ```
-### Sample Result
